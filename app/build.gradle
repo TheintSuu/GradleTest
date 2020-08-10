@@ -1,0 +1,93 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'me.moallemi.advanced-build-version'
+
+advancedVersioning {
+    nameOptions {
+        versionMajor 0
+        versionMinor 0
+        versionPatch 1
+    }
+    codeOptions {
+        versionCodeType 'AUTO_INCREMENT_ONE_STEP'
+    }
+    outputOptions {
+        renameOutput true
+        nameFormat 'GradleSample-v${versionName}'
+    }
+}
+
+def appVersionName = advancedVersioning.versionName
+def appVersionCode = advancedVersioning.versionCode
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.1"
+
+    defaultConfig {
+        applicationId "com.theintsuhtwe.gradletest"
+        minSdkVersion 22
+        targetSdkVersion 30
+        versionCode appVersionCode
+        versionName appVersionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField 'String', 'MY_ACCOUNT', "\"${ verysensitvieData}\""
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors{
+        flavorDimensions  "appModule"
+        def BASE_URL_FIELD = "BASE_URL_FIELD"
+        def BASE_DEV_URL = "\"https://dev.padcmyanmar.com\""
+        def BASE_PROD_URL = "\"https://padcmyanmar.com\""
+        def BASE_STRATEGY_URL = "\"https://strategy.padcmyanmar.com\""
+        dev{
+            dimension "appModule"
+            applicationIdSuffix = ".dev"
+            manifestPlaceholders = [appName : "@string/app_name_dev"]
+            buildConfigField 'String', BASE_URL_FIELD, BASE_DEV_URL
+        }
+        prod{
+            dimension "appModule"
+            applicationIdSuffix = ".prod"
+            manifestPlaceholders = [appName : "@string/app_name_prod"]
+            buildConfigField 'String', BASE_URL_FIELD, BASE_PROD_URL
+        }
+        strategy{
+            dimension "appModule"
+            applicationIdSuffix = ".strategy"
+            manifestPlaceholders = [appName : "@string/app_name_strategy"]
+            buildConfigField 'String', BASE_URL_FIELD, BASE_STRATEGY_URL
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.1'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+
+  //  implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    //glide  and constraintLayout centralized
+    implementation rootProject.ext.libraries.glide
+    implementation rootProject.ext.librariesConstraint.constraintlayout
+
+
+    //share module
+    implementation project (":shared")
+
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+}

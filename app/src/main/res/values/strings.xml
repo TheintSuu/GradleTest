@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name_dev">Gradle(Dev)</string>
+    <string name="app_name_prod">Gradle Publish</string>
+    <string name="app_name_strategy">Gradle Strategy</string>
+</resources>

@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.theintsuhtwe.gradletest.strategy",
+  "variantName": "strategyRelease",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "properties": [],
+      "versionCode": 4,
+      "versionName": "0.0.1",
+      "enabled": true,
+      "outputFile": "GradleSample-v0.0.1.apk"
+    }
+  ]
+}
